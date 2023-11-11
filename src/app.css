@@ -1,5 +1,13 @@
-! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css
 
+/* vars */
+
+:root {
+  --primary: #8a713e;
+  --secondary:rgb(239, 170, 42);
+  --success:rgb(53, 208, 53);
+  --error:rgb(234, 86, 86);
+  --page-background-color:#fafbff;
+}
 /* Document
    ========================================================================== */
 
@@ -22,6 +30,8 @@
   
   body {
     margin: 0;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    background-color: var(--page-background-color);
   }
   
   /**
@@ -345,33 +355,232 @@
    */
   
   [hidden] {
-    display: none;
+    display: none !important;
   }
+  
   .wrapper{
     padding: 1rem;
   }
+
   .q-wrapper{
     min-height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-
   }
+
   .q-wrapper::after{
     content: "";
     height: 0.5em;
+  }
+  .q-wrapper:not(:last-child)::after{
     border-top: 1px solid black;
     
   }
   .answer-wrapper>input{
     
     margin-right: 10px;
+ 
     
 }
-
+.answer-wrapper > label:hover{
+  cursor: pointer;
+}
+.answer-wrapper > label.should-be{
+  border: 2px dashed var(--secondary);
+  border-radius: 20px;
+  padding: 4px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
 .success{
   color: teal;
 }
-.fail{
-  color: rgb(237, 93, 93);
+.error{
+  color: var(--error)
+}
+
+/* MODAL STYLES
+-------------------------------*/
+.modal {
+  /* modals are hidden by default */
+  display: none;
+
+  /* modal container fixed across whole screen */
+  position: fixed;
+  inset: 0;
+
+  /* z-index must be higher than everything else on the page */
+  z-index: 10000;
+  
+  /* semi-transparent black background exposed by padding */
+  background-color: var(--page-background-color);
+  padding: 40px;
+
+  /* enables scrolling for tall modals */
+  overflow: auto;
+  /* color: #fff; */
+}
+
+.modal.open {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(5, 40px);
+  text-align: center;
+  justify-items: center;
+  align-items: baseline;
+  
+}
+
+.modal-body {
+  padding: 1.325rem;
+  background: var(--page-background-color);
+}
+
+body.modal-open {
+  /* body overflow is hidden to hide main scrollbar when modal window is open */
+  overflow: hidden;
+}
+
+
+.slider {
+  display: block;
+}
+
+div.option[data-checked] {
+  background-color: blue;
+  color: white;
+}
+div.select[data-open] {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+div.select:hover {
+  border-color: blue;
+}
+.select {
+
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding: 0;
+  position: relative;
+  width: auto;
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: inherit;
+  border-color: inherit;
+  border-radius: inherit;
+  user-select: none;
+  box-sizing: border-box;
+  position: relative;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 0;
+  border-color: gray;
+  width: auto;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  
+}
+.select::after{
+  content: "↓";
+  align-self: stretch;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  padding: 0.5em;
+}
+
+.select:focus {
+  border-color: 8f630a;
+}
+
+.loader{
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  display: none;
+  transform: translateY(50%);
+  height: 100vh;
+}
+.loader.loading{
+  display: block;
+}
+.loader:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 8px;
+  box-sizing: border-box;
+  border: 32px solid var(--primary);
+  border-color: var(--primary) transparent var(--primary) transparent;
+  animation: loader 1.2s infinite;
+}
+@keyframes loader {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+
+#start-btn{
+  display: block;
+ 
+}
+
+.conf-btn, .stop-btn{
+  display: block;
+  margin: 0 auto;
+  transform: translateY(50%);
+  -webkit-transform: translateY(50%);
+  -moz-transform: translateY(50%);
+  -ms-transform: translateY(50%);
+  -o-transform: translateY(50%);
+}
+.timer-span, .result-box{
+  display: block;
+  margin: 0 auto;
+  transform: translateY(100%);
+  -webkit-transform: translateY(100%);
+  -moz-transform: translateY(100%);
+  -ms-transform: translateY(100%);
+  -o-transform: translateY(100%);
+  text-align: center;
+}
+.controls{
+  display: block;
+  background-color: var(--primary);
+  height: 70px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  transform: scale3d(1);
+  transition: width 2s, height 2s, transform 3s cubic-bezier(0.39, 0.575, 0.565, 1) ;
+  -webkit-transform: scale3d(1);
+  -moz-transform: scale3d(1);
+  -ms-transform: scale3d(1);
+  -o-transform: scale3d(1);
+  -webkit-transition: width 2s, height 2s, transform 3s cubic-bezier(0.39, 0.575, 0.565, 1) ;
+  -moz-transition: width 2s, height 2s, transform 3s cubic-bezier(0.39, 0.575, 0.565, 1) ;
+  -ms-transition: width 2s, height 2s, transform 3s cubic-bezier(0.39, 0.575, 0.565, 1) ;
+  -o-transition: width 2s, height 2s, transform 3s cubic-bezier(0.39, 0.575, 0.565, 1) ;
 }
